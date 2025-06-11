@@ -22,6 +22,6 @@
   }
 
   button {
-    @apply bg-accent;
+    @apply bg-secondary px-6 hover:bg-accent  py-2 rounded-full ;
   }
 }
