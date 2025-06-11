@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --color-text: oklch(95.95% 0.014 277.06);
+  --color-background: oklch(13.52% 0.032 273.35);
+  --color-primary: oklch(44.36% 0.184 271.60);
+  --color-secondary: oklch(22.41% 0.129 287.78);
+  --color-accent: oklch(46.22% 0.306 268.80);
+}
+
+@layer base {
+  body {
+    font-family: "Outfit", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    @apply bg-background text-text
+  }
+
+  button {
+    @apply bg-accent;
+  }
+}
