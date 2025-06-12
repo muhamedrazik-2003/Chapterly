@@ -1,7 +1,9 @@
 import { Edit, Pen, Trash2 } from 'lucide-react'
-import React from 'react'
+import { updateBook } from '../redux/slices/bookSlice'
+import { useDispatch } from 'react-redux'
 
 const BookDetail = () => {
+  const dispatch = useDispatch()
   return (
     <div className='h-[60vh] w-6xl mx-auto text-center my-8'>
       {/* <h1 className='text-xl mb-8'>Add New Book to Your List</h1> */}
@@ -23,7 +25,12 @@ const BookDetail = () => {
 
           </div>
           <div className='flex gap-6 mt-5'>
-            <button className='flex gap-2 items-center'><Pen className='size-4' />Edit Your Book</button>
+            <button
+              onClick={() => dispatch(updateBook())} 
+              className='flex gap-2 items-center'>
+                <Pen className='size-4' />
+                Edit Your Book
+            </button>
             <button className='flex gap-2 items-center text-red-500 hover:bg-red-900 hover:text-red-100 active:bg-red-950 focus:outline-red-500 '><Trash2 className='size-4' />Delete Book</button>
           </div>
 
