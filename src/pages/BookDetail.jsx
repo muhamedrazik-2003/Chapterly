@@ -1,7 +1,7 @@
 import { Edit, Pen, Trash2 } from 'lucide-react'
-import { updateBook } from '../redux/slices/bookSlice'
+import { updateBook, deleteBook } from '../redux/slices/bookSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useState } from 'react'
 
 const BookDetail = () => {
@@ -11,6 +11,7 @@ const BookDetail = () => {
   const { bookId } = useParams()
   const currentBook = books.find(book => book.id === bookId)
   const [updatedBook, setUpdatedBook] = useState({ ...currentBook })
+  const navigate = useNavigate()
 
   const setStatusClass = () => {
     if (currentBook?.status === "Completed") {
@@ -32,6 +33,7 @@ const BookDetail = () => {
     });
     const newData = { ...updatedBookData, dateAdded: formattedDate }
     dispatch(updateBook({ bookId: BookId, updatedBookData: newData }))
+    updatedBook
   }
   const setRating = (rating) => {
     if (rating === '1') {
@@ -45,6 +47,10 @@ const BookDetail = () => {
     } else {
       return "⭐ ⭐ ⭐ ⭐ ⭐"
     }
+  }
+  const handleDeleteBook = (BookId) => {
+    dispatch(deleteBook(BookId))
+    navigate('/')
   }
 
   return (
@@ -61,7 +67,7 @@ const BookDetail = () => {
                 <p>Cover Url</p>
                 <input
                   type='text'
-                  onChange={(e) => setUpdatedBook({ ...updatedBook, cover: e.target.value })}
+                  onChange={(e) => setUpdatedBook({ ...currentBook, cover: e.target.value })}
                   className='bg-slate-900 w-100'
                   placeholder='Enter Your Book Cover URL'
                   defaultValue={currentBook.cover} />
@@ -78,25 +84,25 @@ const BookDetail = () => {
             <>
               <input
                 className='text-title text-3xl w-130 font-semibold'
-                onChange={(e) => setUpdatedBook({ ...updatedBook, title: e.target.value })}
+                onChange={(e) => setUpdatedBook({ ...currentBook, title: e.target.value })}
                 defaultValue={currentBook?.title} />
               <input
                 className='text-2xl font-semibold text-amber-200'
-                onChange={(e) => setUpdatedBook({ ...updatedBook, author: e.target.value })}
+                onChange={(e) => setUpdatedBook({ ...currentBook, author: e.target.value })}
                 defaultValue={currentBook?.author} />
               <div className='space-y-2.5 text-lg text-slate-200 mb-6'>
                 <div className='flex gap-2 items-center '>
                   <p>Genre : </p>
                   <input
                     className='w-50'
-                    onChange={(e) => setUpdatedBook({ ...updatedBook, genre: e.target.value })}
+                    onChange={(e) => setUpdatedBook({ ...currentBook, genre: e.target.value })}
                     defaultValue={currentBook?.genre} />
                 </div>
                 <div className='flex gap-2 items-center'>
                   <p>Status : </p>
                   <select
                     className='bg-slate-900 w-50'
-                    onChange={(e) => setUpdatedBook({ ...updatedBook, status: e.target.value })}
+                    onChange={(e) => setUpdatedBook({ ...currentBook, status: e.target.value })}
                     defaultValue={currentBook?.status}>
                     <option value="Completed">Completed</option>
                     <option value="Reading">Reading</option>
@@ -107,7 +113,7 @@ const BookDetail = () => {
                   <p>Rating : </p>
                   <select
                     className='w-50'
-                    onChange={(e) => setUpdatedBook({ ...updatedBook, rating: e.target.value })}
+                    onChange={(e) => setUpdatedBook({ ...currentBook, rating: e.target.value })}
 
                     defaultValue={currentBook?.rating}>
                     <option value="5">⭐ ⭐ ⭐ ⭐ ⭐</option>
@@ -121,7 +127,7 @@ const BookDetail = () => {
                   <p>External Link :</p>
                   <input
                     className='text-slate-200 w-62'
-                    onChange={(e) => setUpdatedBook({ ...updatedBook, link: e.target.value })}
+                    onChange={(e) => setUpdatedBook({ ...currentBook, link: e.target.value })}
 
                     defaultValue={'Not Available'} />
                 </div>
@@ -163,7 +169,11 @@ const BookDetail = () => {
               </button>
             }
             <button
-              className={`flex gap-2 items-center text-red-500 hover:bg-red-900 hover:text-red-100 active:bg-red-950 focus:outline-red-500 ${isEditing ? 'hidden' : ''}`}><Trash2 className='size-4' />Delete Book</button>
+            onClick={() => handleDeleteBook(currentBook?.id)}
+              className={`flex gap-2 items-center text-red-500 hover:bg-red-900 hover:text-red-100 active:bg-red-950 focus:outline-red-500 ${isEditing ? 'hidden' : ''}`}>
+              <Trash2 className='size-4' />
+              Delete Book
+            </button>
           </div>
 
 

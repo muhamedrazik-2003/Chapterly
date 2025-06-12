@@ -3,7 +3,7 @@ import BookCard from '../components/BookCard'
 import { fetchBooks } from '../redux/slices/bookSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-
+import { Plus } from 'lucide-react'
 const Home = () => {
     const { books, loading, error } = useSelector(state => state.bookSlice)
     const dispatch = useDispatch()
@@ -24,6 +24,7 @@ const Home = () => {
                     placeholder='What are you reading today? Search Chapterly...'
                     className='p-5 h-9 w-xl' />
             </section>
+        
             <section className='md:w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-y-10 justify-center mb-10'>
                 {
                     loading

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Plus } from 'lucide-react'
 
 const Header = () => {
     return (
@@ -7,9 +8,10 @@ const Header = () => {
                 <img src="/chapterly-logo.png" alt="" className='size-8' />
                 <h1 className='text-2xl font-medium'>Chapterly</h1>
             </div>
-            <div className='flex gap-2 items-center'>
+            <div className='flex gap-4 items-center'>
                 {/* <h2 className='py-1'>Muhamed Razik</h2> */}
-                <div className='p-1 bg-slate-700 rounded-full'>MR</div>
+                <button className='flex gap-2 py-1.5'><Plus />Add New Book</button>
+                <div className='p-1.5 bg-slate-700 rounded-full'>MR</div>
             </div>
         </section>
     )
