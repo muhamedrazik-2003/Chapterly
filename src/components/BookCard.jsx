@@ -1,22 +1,32 @@
 import React from 'react'
 
-const BookCard = ({ booksData }) => {
+const BookCard = ({ isLoading, bookData }) => {
     return (
         <>
-
-            {booksData.map((item) => (
-                <div className=' flex flex-col items-center space-y-3 mx-9'>
-                    <img
-                        className='h-60'
-                        src={item.cover} alt="" />
-                    <div className='self-start'>
-                        <h2 className='text-md text-title font-semibold'>{item.title}</h2>
-                        <p className='text-sm italic text-primary font-medium'>{item.genre}</p>
+            {isLoading
+                ? <div className=' flex flex-col items-center space-y-4 mx-9 animate-pulse'>
+                    <div className='h-60 w-40 bg-slate-900 rounded-sm'></div>
+                    <div className='flex flex-col items-center space-y-2'>
+                        <div className='h-3  rounded w-35 bg-slate-900'></div>
+                        <div className='h-2 bg-slate-900 rounded w-25'></div>
                     </div>
                 </div>
-            ))
+
+                : <div className=' flex flex-col items-center space-y-3 mx-9'>
+                    <img
+                        className='h-60'
+                        src={bookData?.cover} alt="" />
+                    <div className='self-start'>
+                        <h2 className='text-md text-title font-semibold'>{bookData?.title}</h2>
+                        <p className='text-sm italic text-primary font-medium'>{bookData?.genre}</p>
+                    </div>
+                </div>
+
             }
+
+
         </>
+
     )
 }
 
