@@ -16,7 +16,7 @@ const BookCard = ({ isLoading, bookData }) => {
                     <img
                         className='h-60'
                         src={bookData?.cover} alt="" />
-                    <div className='self-start'>
+                    <div className='text-center px-1'>
                         <h2 className='text-md text-title font-semibold'>{bookData?.title}</h2>
                         <p className='text-sm italic text-primary font-medium'>{bookData?.genre}</p>
                     </div>

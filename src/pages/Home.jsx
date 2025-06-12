@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import BookCard from '../components/BookCard'
 import { fetchBooks } from '../redux/slices/bookSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const Home = () => {
     const { books, loading, error } = useSelector(state => state.bookSlice)
@@ -30,7 +31,9 @@ const Home = () => {
                             <BookCard isLoading={loading} />
                         ))
                         : <>{books.map(item => (
-                            <BookCard bookData={item} />
+                            <Link to={`/book/${item.id}`}>
+                                <BookCard bookData={item} />
+                            </Link>
 
                         ))}
                         </>
