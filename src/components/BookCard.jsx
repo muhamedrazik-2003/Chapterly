@@ -1,4 +1,3 @@
-import React from 'react'
 
 const BookCard = ({ isLoading, bookData }) => {
     return (
@@ -14,7 +13,7 @@ const BookCard = ({ isLoading, bookData }) => {
 
                 : <div className=' flex flex-col items-center space-y-3 mx-9'>
                     <img
-                        className='h-60'
+                        className='h-60 w-39 bg-slate-900'
                         src={bookData?.cover} alt="" />
                     <div className='text-center px-1'>
                         <h2 className='text-md text-title font-semibold'>{bookData?.title}</h2>

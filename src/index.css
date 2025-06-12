@@ -23,8 +23,14 @@
   h2 {
     @apply text-xl font-semibold;
   }
+  input {
+    @apply bg-slate-900 px-4 py-0.5 cursor-pointer border border-secondary rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-600
+  }
+  select {
+    @apply bg-slate-900 px-4 py-0.5 cursor-pointer border border-secondary rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-600
+  }
 
   button {
-    @apply bg-secondary font-bold px-6 hover:bg-[#170040]  active:bg-[#150025]  hover:scale-102 transition py-2 rounded-full ;
+    @apply bg-secondary font-bold px-6 hover:bg-[#170040]  active:bg-[#150025]  hover:scale-102 py-2 rounded-full transition-all duration-300 ease-in-out ;
   }
 }

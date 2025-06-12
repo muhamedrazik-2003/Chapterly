@@ -11,12 +11,12 @@ export const fetchBooks = createAsyncThunk("books/fetchBooks", async () => {
 
 export const updateBook = createAsyncThunk(
   "books/updateBook",
-  async (bookId, updatedData) => {
-    const response = await axios.patch(
+  async ({bookId, updatedBookData}) => {
+    const response = await axios.put(
       `${API_Base_url}/${bookId}`,
-      updatedData
+      updatedBookData
     );
-    console.log(response.data);
+    return response.data;
   }
 );
 
@@ -50,7 +50,6 @@ const bookSlice = createSlice({
     builder.addCase(updateBook.fulfilled, (state, action) => {
       state.loading = false;
       state.error = "";
-
       const updatedData = action.payload;
       const index = state.books.findIndex((book) => book.id === updatedData.id);
       // since findIndex returns -1 if no match found
