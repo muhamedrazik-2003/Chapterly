@@ -20,8 +20,11 @@
   h1 {
     font-weight: 700;
   }
+  h2 {
+    @apply text-xl font-semibold;
+  }
 
   button {
-    @apply bg-secondary px-6 hover:bg-accent  py-2 rounded-full ;
+    @apply bg-secondary font-bold px-6 hover:bg-[#170040]  active:bg-[#150025]  hover:scale-102 transition py-2 rounded-full ;
   }
 }
