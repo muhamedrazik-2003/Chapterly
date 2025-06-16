@@ -57,8 +57,11 @@ const BookDetail = () => {
     }
   }
   const handleDeleteBook = (BookId) => {
-    dispatch(deleteBook(BookId))
-    navigate('/')
+    const confirmed = window.confirm("Are you sure you want to delete this book?");
+    if (confirmed) {
+      dispatch(deleteBook(BookId))
+      navigate('/')
+    }
   }
 
   return (
@@ -86,7 +89,7 @@ const BookDetail = () => {
               src={currentBook?.cover || "/public/covers/fallback.svg"} alt="" />
           }
         </div>
-        <div className='text-start flex flex-col w-[310px] justify-center items-center  md:w-[50%] space-y-2  md:space-y-4 text-pretty'>
+        <div className='text-start flex flex-col w-[310px] justify-center items-center md:justify-start md:items-start  md:w-[50%] space-y-2  md:space-y-4 text-pretty'>
           {isEditing
             ?
             <>
