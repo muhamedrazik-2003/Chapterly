@@ -31,7 +31,8 @@ const Home = () => {
                         ? Array.from({ length: 10 }).map((_, index) => (
                             <BookCard isLoading={loading} />
                         ))
-                        : <>{books.map(item => (
+                        :error ? error
+                        : <>{books?.map(item => (
                             <Link to={`/book/${item.id}`}>
                                 <BookCard bookData={item} />
                             </Link>

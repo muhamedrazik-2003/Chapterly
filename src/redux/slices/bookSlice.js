@@ -3,7 +3,7 @@ import axios from "axios";
 
 const API_Base_url = "http://localhost:3000/books";
 
-export const addNewBook = createAsyncThunk("books/addNewBook", async() => {
+export const addNewBook = createAsyncThunk("books/addNewBook", async(newBookData) => {
   const response = await axios.post(API_Base_url, newBookData);
   console.log(response.data)
   return response.data
@@ -29,7 +29,7 @@ export const updateBook = createAsyncThunk(
 export const deleteBook = createAsyncThunk("books/deleteBook", async (bookId)=> {
   const response = await axios.delete(`${API_Base_url}/${bookId}`);
   console.log(response.data);
-  return response.data;
+  return {bookId : bookId};
 })
 
 
@@ -60,7 +60,7 @@ const bookSlice = createSlice({
     });
     //for handling addNewBook
     builder.addCase(addNewBook.fulfilled, (state, action) => {
-      state.books = action.payload;
+      state.books.push(action.payload);
       state.loading = false;
       state.error = "";
     });
@@ -93,7 +93,7 @@ const bookSlice = createSlice({
 
     // for handling deleteBook
     builder.addCase(deleteBook.fulfilled, (state, action) => {
-      state.books = action.payload;
+      state.books = state.books.filter(book => book.id !== action.payload.id) ;
       state.loading = false;
       state.error = "";
     });
