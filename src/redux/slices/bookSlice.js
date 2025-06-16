@@ -36,15 +36,27 @@ const bookSlice = createSlice({
   name: "books",
   initialState: {
     books: [],
+    searchData: [],
     loading: false,
     isUpdating: false,
     error: "",
   },
-  reducers: {},
+  reducers: {
+    search(state, action) {
+      const keyword = action.payload.toLowerCase();
+
+      if (keyword.length > 0) {
+        state.books = state.searchData.filter((item) => `${item.title} ${item.author} ${item.genre}`.toLowerCase().includes(keyword));
+      } else {
+        state.books = state.searchData
+      }
+    }
+  },
   extraReducers: (builder) => {
     // for handling fetchBooks
     builder.addCase(fetchBooks.fulfilled, (state, action) => {
       state.books = action.payload;
+      state.searchData = action.payload;
       state.loading = false;
       state.error = "";
     });
@@ -61,6 +73,7 @@ const bookSlice = createSlice({
     //for handling addNewBook
     builder.addCase(addNewBook.fulfilled, (state, action) => {
       state.books.push(action.payload);
+      state.searchData.push(action.payload);
       state.loading = false;
       state.error = "";
     });
@@ -81,6 +94,7 @@ const bookSlice = createSlice({
       const index = state.books.findIndex((book) => book.id === updatedData.id);
       // since findIndex returns -1 if no match found
       if (index !== -1) state.books[index] = updatedData;
+      if (index !== -1) state.searchData[index] = updatedData;
     });
     builder.addCase(updateBook.pending, (state) => {
       state.isUpdating= true;
@@ -92,7 +106,8 @@ const bookSlice = createSlice({
     });
     // for handling deleteBook
     builder.addCase(deleteBook.fulfilled, (state, action) => {
-      state.books = state.books.filter(book => book.id !== action.payload.id) ;
+      state.books = state.books.filter(book => book.id !== action.payload.bookId) ;
+      state.searchData = state.searchData.filter(book => book.id !== action.payload.bookId) ;
       state.loading = false;
       state.error = "";
     });
@@ -107,4 +122,5 @@ const bookSlice = createSlice({
   },
 });
 
+export const  {search} = bookSlice.actions;
 export default bookSlice.reducer;

@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import BookCard from '../components/BookCard'
-import { fetchBooks } from '../redux/slices/bookSlice'
+import { fetchBooks,search } from '../redux/slices/bookSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Plus } from 'lucide-react'
+
 const Home = () => {
     const { books, loading, error } = useSelector(state => state.bookSlice)
     const dispatch = useDispatch()
@@ -24,7 +24,7 @@ const Home = () => {
                     type="search"
                     placeholder='What are you reading today? Search Chapterly...'
                     className='md:p-5 md:h-9 sm:w-lg md:w-xl'
-                    onChange={(e) => handleSearch(e.target.value)} />
+                    onChange={(e) => dispatch(search(e.target.value))} />
             </section>
         
             <section className=' xl:w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-6 md:gap-y-10 justify-center mb-5 md:mb-10'>
