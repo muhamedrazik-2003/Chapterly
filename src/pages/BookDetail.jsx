@@ -68,7 +68,7 @@ const BookDetail = () => {
           {isEditing
             ? <div className='flex flex-col gap-2 md:gap-6 items-center '>
               <img
-                className='h-40 md:h-60'
+                className='h-55 md:h-60'
                 src={updatedBook?.cover} alt=""
               />
               <div className='space-y-2'>
@@ -82,25 +82,25 @@ const BookDetail = () => {
               </div>
             </div>
             : <img
-              className='h-40 md:h-75'
+              className='h-60 md:h-75'
               src={currentBook?.cover || "/public/covers/fallback.svg"} alt="" />
           }
         </div>
-        <div className='text-start flex flex-col  md:w-[50%] space-y-2 mx-8 md:space-y-4'>
+        <div className='text-start flex flex-col w-[310px] justify-center items-center  md:w-[50%] space-y-2  md:space-y-4 text-pretty'>
           {isEditing
             ?
             <>
               <input
-                className='text-title md:text-3xl md:w-130 font-semibold'
+                className='text-title text-2xl md:text-3xl md:w-130 font-semibold '
                 placeholder='Book Title'
                 onChange={(e) => setUpdatedBook({ ...currentBook, title: e.target.value })}
                 defaultValue={currentBook?.title} />
               <input
-                className='md:text-2xl font-semibold md:w-130 text-amber-200'
+                className='text-lg md:text-2xl font-semibold md:w-130 text-amber-200'
                 placeholder='Book Author'
                 onChange={(e) => setUpdatedBook({ ...currentBook, author: e.target.value })}
                 defaultValue={currentBook?.author} />
-              <div className='space-y-2.5 text-xs md:text-base text-slate-200 mb-6'>
+              <div className='space-y-2.5  text-sm md:text-base text-slate-200 mb-6'>
                 <div className='flex gap-2 items-center '>
                   <p>Genre : </p>
                   <input
@@ -148,9 +148,9 @@ const BookDetail = () => {
             </>
             :
             <>
-              <h1 className='text-title text-xl md:text-6xl'>{currentBook?.title}</h1>
-              <h2 className='text-lg md:text-2xl font-semibold text-amber-200'>By {currentBook?.author}</h2>
-              <div className='space-y-1.5 text-sm md:text-base text-slate-200'>
+              <h1 className='text-title text-2xl md:text-6xl'>{currentBook?.title}</h1>
+              <h2 className='text-xl md:text-2xl font-semibold text-amber-200'>By {currentBook?.author}</h2>
+              <div className='space-y-1.5  md:text-lg text-slate-200'>
                 <p >Genre : {currentBook?.genre}</p>
                 <p>Status : <span className={setStatusClass()}>{currentBook?.status}</span></p>
                 <p>Ratings : {setRating(currentBook?.rating)}</p>
