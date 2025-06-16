@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import { CirclePlus, Plus } from 'lucide-react'
 import { addNewBook } from '../redux/slices/bookSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Header = () => {
     const [newBook, setNewBook] = useState({
@@ -20,6 +20,7 @@ const Header = () => {
     const { books } = useSelector(state => state.bookSlice)
     const modalRef = useRef(null)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleBookSubmit = (newBookData) => {
         const today = new Date();
@@ -49,6 +50,7 @@ const Header = () => {
                 link: ''
             })
             dispatch(addNewBook(newData))
+            navigate('/')
             modalRef.current?.close()
         }
     }

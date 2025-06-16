@@ -10,6 +10,7 @@ const Home = () => {
     useEffect(() => {
         dispatch(fetchBooks())
     }, [])
+
     return (
         <main>
             {/* hero section */}
@@ -22,7 +23,8 @@ const Home = () => {
                 <input
                     type="search"
                     placeholder='What are you reading today? Search Chapterly...'
-                    className='md:p-5 md:h-9 sm:w-lg md:w-xl' />
+                    className='md:p-5 md:h-9 sm:w-lg md:w-xl'
+                    onChange={(e) => handleSearch(e.target.value)} />
             </section>
         
             <section className=' xl:w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-6 md:gap-y-10 justify-center mb-5 md:mb-10'>
