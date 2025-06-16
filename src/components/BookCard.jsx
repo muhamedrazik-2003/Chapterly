@@ -11,9 +11,9 @@ const BookCard = ({ isLoading, bookData }) => {
                     </div>
                 </div>
 
-                : <div className=' flex flex-col items-center space-y-2 md:space-y-3 mx-3  md:mx-9'>
+                : <div className=' flex flex-col items-center space-y-2 md:space-y-3  md:mx-9'>
                     <img
-                        className='h-50 sm:h-55 md:h-60 w-39 bg-slate-900'
+                        className='h-50 sm:h-55 md:h-60 w-33 sm:w-36 md:w-39 bg-slate-900'
                         src={bookData?.cover} alt="" />
                     <div className='text-center md:px-1'>
                         <h2 className='text-sm md:text-md text-title font-semibold'>{bookData?.title}</h2>

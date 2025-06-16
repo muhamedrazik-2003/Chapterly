@@ -74,7 +74,7 @@ const Header = () => {
                 <div className=''>
                     <button
                         onClick={() => handleModal()}
-                        className='flex gap-2 px-3'><CirclePlus /><span className='hidden sm:block'>Add New</span>Book</button>
+                        className='flex gap-2 px-3'><CirclePlus />Add <span className='hidden sm:block'> New</span>Book</button>
                 </div>
                 {/* add Book Modal */}
                 <dialog ref={modalRef} className='bg-transparent w-full h-full'>

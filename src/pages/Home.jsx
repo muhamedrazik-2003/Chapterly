@@ -23,7 +23,7 @@ const Home = () => {
                 <input
                     type="search"
                     placeholder='What are you reading today? Search Chapterly...'
-                    className='md:p-5 md:h-9 sm:w-lg md:w-xl'
+                    className='p-2 md:p-5 h-9 w-[310px] sm:w-lg md:w-xl'
                     onChange={(e) => dispatch(search(e.target.value))} />
             </section>
         
