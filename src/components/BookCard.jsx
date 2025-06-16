@@ -11,13 +11,13 @@ const BookCard = ({ isLoading, bookData }) => {
                     </div>
                 </div>
 
-                : <div className=' flex flex-col items-center space-y-3 mx-9'>
+                : <div className=' flex flex-col items-center space-y-2 md:space-y-3 mx-3 md:mx-9'>
                     <img
-                        className='h-60 w-39 bg-slate-900'
+                        className='h-50 w-39 bg-slate-900'
                         src={bookData?.cover} alt="" />
-                    <div className='text-center px-1'>
-                        <h2 className='text-md text-title font-semibold'>{bookData?.title}</h2>
-                        <p className='text-sm italic text-primary font-medium'>{bookData?.genre}</p>
+                    <div className='text-center md:px-1'>
+                        <h2 className='text-sm md:text-md text-title font-semibold'>{bookData?.title}</h2>
+                        <p className='text:xs md:text-sm italic text-primary font-medium'>{bookData?.genre}</p>
                     </div>
                 </div>
 

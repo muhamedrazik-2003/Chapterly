@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
-import { Plus } from 'lucide-react'
+import { CirclePlus, Plus } from 'lucide-react'
 import { addNewBook } from '../redux/slices/bookSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const Header = () => {
@@ -17,6 +17,7 @@ const Header = () => {
         quotes: [],
         link: ''
     })
+    const { books } = useSelector(state => state.bookSlice)
     const modalRef = useRef(null)
     const dispatch = useDispatch()
 
@@ -31,9 +32,25 @@ const Header = () => {
             ...newBookData,
             dateAdded: formattedDate
         };
-
-        dispatch(addNewBook(newData))
-        modalRef.current?.close()
+        const existing = books.find(book => book.title === newData.title);
+        if (existing) {
+            alert("Exist")
+        } else {
+            setNewBook({
+                title: '',
+                author: '',
+                genre: '',
+                status: '',
+                rating: '',
+                dateAdded: '',
+                cover: '',
+                notes: '',
+                quotes: [],
+                link: ''
+            })
+            dispatch(addNewBook(newData))
+            modalRef.current?.close()
+        }
     }
 
     const handleModal = () => {
@@ -44,25 +61,23 @@ const Header = () => {
     }
     return (
         <>
-            <section className='mx-12 flex justify-between center mt-5'>
+            <section className='mx-6 md:mx-12 flex justify-between center mt-5'>
                 <Link to={'/'}>
                     <div className='flex items-center'>
                         <img src="/chapterly-logo.png" alt="" className='size-8' />
-                        <h1 className='text-2xl font-medium'>Chapterly</h1>
+                        <h1 className='text-2xl font-medium hidden md:block'>Chapterly</h1>
                     </div>
                 </Link>
 
-                <div className='flex gap-4 items-center'>
-                    {/* <h2 className='py-1'>Muhamed Razik</h2> */}
+                <div className=''>
                     <button
                         onClick={() => handleModal()}
-                        className='flex gap-2 py-1.5'><Plus />Add New Book</button>
-                    <div className='p-1.5 bg-slate-700 rounded-full'>MR</div>
+                        className='flex gap-2 px-3'><CirclePlus /><span className='hidden sm:block'>Add New</span>Book</button>
                 </div>
                 {/* add Book Modal */}
                 <dialog ref={modalRef} className='bg-transparent w-full h-full'>
                     <div className='bg-background text-white md:w-4xl p-6 rounded-3xl mx-auto mt-[13vh]'>
-                        <form action="dialog">
+                        <form action="dialog" onSubmit={() => handleBookSubmit(newBook)}>
                             <div className='flex flex-col md:flex-row gap-6 items-center justify-center overflow-auto md:h-[62vh]'>
 
                                 <div className='flex flex-col gap-4 items-center text-sm'>
@@ -96,7 +111,7 @@ const Header = () => {
                                         <input
                                             name='title'
                                             required
-                                            className='text-title w-85 md:w-110  h-8'
+                                            className='text-title w-85 md:w-110  h-8 user-invalid:ring-red-500'
                                             onChange={(e) => setNewBook({ ...newBook, title: e.target.value })}
                                         />
                                     </div>
@@ -105,7 +120,7 @@ const Header = () => {
                                         <input
                                             name='author'
                                             required
-                                            className='text-title w-85 md:w-110  h-8'
+                                            className='text-title w-85 md:w-110  h-8 user-invalid:ring-red-500'
                                             onChange={(e) => setNewBook({ ...newBook, author: e.target.value })}
                                         />
                                     </div>
@@ -168,8 +183,7 @@ const Header = () => {
                                     Cancel
                                 </button>
                                 <button
-                                    type='button'
-                                    onClick={() => handleBookSubmit(newBook)}
+                                    type='submit'
                                     className='flex gap-2 items-center'>
                                     Save Changes
                                 </button>

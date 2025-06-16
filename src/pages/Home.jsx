@@ -13,19 +13,19 @@ const Home = () => {
     return (
         <main>
             {/* hero section */}
-            <section className='my-15 pb-10 flex flex-col items-center justify-center text-center space-y-8'>
+            <section className='my-8 md:my-15 pb-6 md:pb-10 flex flex-col items-center justify-center text-center space-y-8'>
                 <div className='space-y-0.5'>
-                    <p className='text-lg text-primary'>DISCOVER THE BOOKS THAT SHAPE YOU</p>
-                    <h1 className='text-4xl w-xl'>Capture and Rate Your
+                    <p className='text-sm md:text-lg text-primary'>DISCOVER THE BOOKS THAT SHAPE YOU</p>
+                    <h1 className='text-2xl md:text-4xl  md:w-xl  leading-6 md:leading-none text-pretty'>Capture and Rate Your
                         Personal Reading Library with Chapterly</h1>
                 </div>
                 <input
                     type="search"
                     placeholder='What are you reading today? Search Chapterly...'
-                    className='p-5 h-9 w-xl' />
+                    className='md:p-5 md:h-9 sm:w-lg md:w-xl' />
             </section>
         
-            <section className='md:w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-y-10 justify-center mb-10'>
+            <section className=' xl:w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-6 md:gap-y-10 justify-center mb-5 md:mb-10'>
                 {
                     loading
                         ? Array.from({ length: 10 }).map((_, index) => (
