@@ -1,4 +1,4 @@
-import { Edit, Pen, PenOff, Trash2 } from 'lucide-react'
+import { CircleX, Edit, Pen, PenOff, Trash2 } from 'lucide-react'
 import { updateBook, deleteBook } from '../redux/slices/bookSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -7,10 +7,15 @@ import { useState } from 'react'
 const BookDetail = () => {
   const { books } = useSelector(state => state.bookSlice);
   const [isEditing, setIsEditing] = useState(false)
+  const [isNotesEditing, setIsNotesEditing] = useState(false)
+  const [isQuotesEditing, setIsQuotesEditing] = useState(false)
   const dispatch = useDispatch()
   const { bookId } = useParams()
+
   const currentBook = books.find(book => book.id === bookId)
   const [updatedBook, setUpdatedBook] = useState({ ...currentBook })
+  const [quoteInput, setQuoteInput] = useState(currentBook?.quotes?.join(', ') || '');
+
   const navigate = useNavigate()
 
   const setStatusClass = () => {
@@ -167,7 +172,7 @@ const BookDetail = () => {
                   <Pen className='size-4' />
                   Update <span className='hidden md:block'> Your Book</span>
                 </button>
-                 <button
+                <button
                   onClick={() => setIsEditing(false)}
                   className={`flex gap-2 items-center text-red-500 hover:bg-red-900 hover:text-red-100 active:bg-red-950 focus:outline-red-500`}>
                   <PenOff className='size-4' />
@@ -197,26 +202,104 @@ const BookDetail = () => {
         <div className=' space-y-2 px-8 md:px-15  text-justify md:w-[50%] '>
           <div className='flex justify-between'>
             <h2>My Notes</h2>
-            <Edit className='size-4 md:size-5 text-primary' />
+
+            {isNotesEditing
+              ? <CircleX
+                onClick={() => setIsNotesEditing(false)}
+                className='size-4 md:size-5 text-red-500 ' />
+              : <Edit
+                onClick={() => setIsNotesEditing(true)}
+                className={`size-4 md:size-5 text-primary  ${isQuotesEditing ? 'hidden' : ''}`} />
+
+            }
           </div>
-          <p className='text-sm md:text-base text-pretty'>
-            {currentBook?.notes > 0 
-             ? currentBook?.notes
-            : <span className='text-slate-700'>Add Your First Note Here 😊 !</span>
-            }</p>
+          {isNotesEditing
+            ? <>
+              <textarea
+                rows={3}
+                className='text-sm md:text-base w-full rounded-2xl p-2'
+                placeholder='Your Notes About the Book'
+                defaultValue={currentBook?.notes}
+                onChange={(e) => setUpdatedBook({ ...currentBook, notes: e.target.value })}
+
+              />
+              <button
+                onClick={() => {
+                  handleBookDataUpdate(currentBook?.id, updatedBook);
+                  setIsNotesEditing(false);
+                }}
+                className='text-green-500'
+              >
+                Save Notes
+              </button>
+            </>
+            : <p className='text-sm md:text-base text-pretty'>
+              {currentBook?.notes.length > 0
+                ? currentBook?.notes
+                : <span className='text-slate-700'>Add Your First Note Here 😊 !</span>
+              }</p>
+          }
+
+
         </div>
         <div className='space-y-2 px-8 md:px-15 text-justify md:w-[50%]'>
           <div className='flex justify-between'>
-            <h2>My Favorite Quotes</h2>
-            <Edit className='size-4 md:size-5  text-primary' />
+            {isQuotesEditing
+              ?
+              <>
+                <h2>My Favorite Quotes  <span className='text-xs text-yellow-500'>use Comma to seperate qoutes</span></h2>
+                <CircleX
+                  onClick={() => setIsQuotesEditing(false)}
+                  className='size-4 md:size-5 text-red-500' />
+              </>
+              :
+              <>
+                <h2>My Favorite Quotes</h2>
+                <Edit
+                  onClick={() => setIsQuotesEditing(true)}
+                  className={`size-4 md:size-5 text-primary  ${isNotesEditing ? 'hidden' : ''}`} />
+              </>
+            }
           </div>
           <ul className="list-disc list-inside italic  text-sm md:text-base text-pretty">
-            {currentBook?.quotes.length > 0 
-            ? currentBook?.quotes.map(quote => (
-              <li>{quote}</li>
-            ))
-            :<span className='text-slate-700'>Add Your Favorite Quotes Here 😊 !</span>
+            {isQuotesEditing
+              ? <>
+                <textarea
+                  rows={3}
+                  className='text-sm md:text-base w-full rounded-2xl p-2'
+                  placeholder='Your Favorite Quotes (comma-separated)'
+                  value={quoteInput}
+                  onChange={(e) => setQuoteInput(e.target.value)}
+                />
+                <button
+                  onClick={() => {
+                    const updatedQuotes = quoteInput
+                      .split(',')
+                      .map(q => q.trim())
+                      .filter(q => q.length > 0);
+
+                    const updatedData = {
+                      ...currentBook,
+                      quotes: updatedQuotes,
+                    };
+                    handleBookDataUpdate(currentBook?.id, updatedData);
+                    setIsQuotesEditing(false);
+                  }}
+                  className='text-green-500'
+                >
+                  Save Quotes
+                </button>
+              </>
+              : <>
+                {currentBook?.quotes.length > 0
+                  ? currentBook?.quotes.map((quote) => (
+                    <li>{quote}</li>
+                  ))
+                  : <span className='text-slate-700'>Add Your Favorite Quotes Here 😊 !</span>
+                }
+              </>
             }
+
           </ul>
         </div>
       </div>
