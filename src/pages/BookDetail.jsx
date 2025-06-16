@@ -36,7 +36,9 @@ const BookDetail = () => {
     updatedBook
   }
   const setRating = (rating) => {
-    if (rating === '1') {
+    if (rating === '0') {
+      return "Not Rated Yet"
+    } else if (rating === '1') {
       return "⭐"
     } else if (rating === '2') {
       return "⭐ ⭐"
@@ -62,7 +64,8 @@ const BookDetail = () => {
             ? <div className='flex flex-col gap-6 items-center '>
               <img
                 className='h-60'
-                src={updatedBook?.cover} alt="" />
+                src={updatedBook?.cover} alt=""
+              />
               <div className='space-y-2'>
                 <p>Cover Url</p>
                 <input
@@ -121,6 +124,7 @@ const BookDetail = () => {
                     <option value="3">⭐ ⭐ ⭐</option>
                     <option value="2">⭐ ⭐</option>
                     <option value="1">⭐</option>
+                    <option value="0">Not Rated Yet</option>
                   </select>
                 </div>
                 <div className='flex gap-2 items-center'>
@@ -169,7 +173,7 @@ const BookDetail = () => {
               </button>
             }
             <button
-            onClick={() => handleDeleteBook(currentBook?.id)}
+              onClick={() => handleDeleteBook(currentBook?.id)}
               className={`flex gap-2 items-center text-red-500 hover:bg-red-900 hover:text-red-100 active:bg-red-950 focus:outline-red-500 ${isEditing ? 'hidden' : ''}`}>
               <Trash2 className='size-4' />
               Delete Book
