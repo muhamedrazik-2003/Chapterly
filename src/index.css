@@ -27,12 +27,11 @@
   }
 
   h2 {
-    @apply text-xl font-semibold;
+    @apply text-base md:text-xl font-semibold;
   }
-
   input,
   textarea {
-    @apply bg-slate-900 px-4 py-0.5 cursor-pointer border border-secondary rounded-3xl focus:outline-0 focus:ring-2 focus:ring-indigo-600  user-invalid:border-red-900
+    @apply bg-slate-900 text-sm md:text-lg px-4 py-0.5 cursor-pointer border border-secondary rounded-3xl focus:outline-0 focus:ring-2 focus:ring-indigo-600  user-invalid:border-red-900
   }
 
   select {
@@ -40,6 +39,6 @@
   }
 
   button {
-    @apply bg-secondary font-bold md:px-6 px-3 hover:bg-[#170040] active:bg-[#150025] hover:scale-102 py-2 rounded-full transition-all duration-300 ease-in-out;
+    @apply bg-secondary font-bold text-sm md:text-base md:px-6 px-3 hover:bg-[#170040] active:bg-[#150025] hover:scale-102 py-2 rounded-full transition-all duration-300 ease-in-out;
   }
 }

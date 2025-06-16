@@ -1,4 +1,4 @@
-import { Edit, Pen, Trash2 } from 'lucide-react'
+import { Edit, Pen, PenOff, Trash2 } from 'lucide-react'
 import { updateBook, deleteBook } from '../redux/slices/bookSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -56,14 +56,14 @@ const BookDetail = () => {
   }
 
   return (
-    <div className='h-[60vh] w-6xl mx-auto text-center my-8'>
+    <div className=' xl:w-6xl mx-auto text-center mt-5'>
       {/* <h1 className='text-xl mb-8'>Add New Book to Your List</h1> */}
-      <div className='flex p-4 border-b border-blue-950 pb-12'>
-        <div className='w-[50%] flex justify-center  items-center space-y-4'>
+      <div className='flex flex-col md:flex-row gap-6 md:gap-0 justify-center items-center md:p-4 border-b border-blue-950 pb-6 md:pb-12 pt-6'>
+        <div className='md:w-[50%] flex justify-center  items-center space-y-4'>
           {isEditing
-            ? <div className='flex flex-col gap-6 items-center '>
+            ? <div className='flex flex-col gap-2 md:gap-6 items-center '>
               <img
-                className='h-60'
+                className='h-40 md:h-60'
                 src={updatedBook?.cover} alt=""
               />
               <div className='space-y-2'>
@@ -71,40 +71,43 @@ const BookDetail = () => {
                 <input
                   type='text'
                   onChange={(e) => setUpdatedBook({ ...currentBook, cover: e.target.value })}
-                  className='bg-slate-900 w-100'
+                  className='bg-slate-9000 md:w-100'
                   placeholder='Enter Your Book Cover URL'
                   defaultValue={currentBook.cover} />
               </div>
             </div>
             : <img
-              className='h-75'
-              src={currentBook?.cover} alt="" />
+              className='h-40 md:h-75'
+              src={currentBook?.cover || "/public/covers/fallback.svg"} alt="" />
           }
         </div>
-        <div className='text-start w-[50%] space-y-4'>
+        <div className='text-start flex flex-col  md:w-[50%] space-y-2 mx-8 md:space-y-4'>
           {isEditing
             ?
             <>
               <input
-                className='text-title text-3xl w-130 font-semibold'
+                className='text-title md:text-3xl md:w-130 font-semibold'
+                placeholder='Book Title'
                 onChange={(e) => setUpdatedBook({ ...currentBook, title: e.target.value })}
                 defaultValue={currentBook?.title} />
               <input
-                className='text-2xl font-semibold text-amber-200'
+                className='md:text-2xl font-semibold md:w-130 text-amber-200'
+                placeholder='Book Author'
                 onChange={(e) => setUpdatedBook({ ...currentBook, author: e.target.value })}
                 defaultValue={currentBook?.author} />
-              <div className='space-y-2.5 text-lg text-slate-200 mb-6'>
+              <div className='space-y-2.5 text-xs md:text-base text-slate-200 mb-6'>
                 <div className='flex gap-2 items-center '>
                   <p>Genre : </p>
                   <input
-                    className='w-50'
+                    className=' w-40 md:w-50'
+                    placeholder='Action'
                     onChange={(e) => setUpdatedBook({ ...currentBook, genre: e.target.value })}
                     defaultValue={currentBook?.genre} />
                 </div>
                 <div className='flex gap-2 items-center'>
                   <p>Status : </p>
                   <select
-                    className='bg-slate-900 w-50'
+                    className='bg-slate-900 w-40 md:w-50'
                     onChange={(e) => setUpdatedBook({ ...currentBook, status: e.target.value })}
                     defaultValue={currentBook?.status}>
                     <option value="Completed">Completed</option>
@@ -115,7 +118,7 @@ const BookDetail = () => {
                 <div className='flex gap-2 items-center'>
                   <p>Rating : </p>
                   <select
-                    className='w-50'
+                    className='w-40 md:w-50'
                     onChange={(e) => setUpdatedBook({ ...currentBook, rating: e.target.value })}
 
                     defaultValue={currentBook?.rating}>
@@ -130,7 +133,7 @@ const BookDetail = () => {
                 <div className='flex gap-2 items-center'>
                   <p>External Link :</p>
                   <input
-                    className='text-slate-200 w-62'
+                    className='text-slate-200 md:w-62'
                     onChange={(e) => setUpdatedBook({ ...currentBook, link: e.target.value })}
 
                     defaultValue={'Not Available'} />
@@ -140,9 +143,9 @@ const BookDetail = () => {
             </>
             :
             <>
-              <h1 className='text-title text-6xl'>{currentBook?.title}</h1>
-              <h2 className='text-2xl font-semibold text-amber-200'>By {currentBook?.author}</h2>
-              <div className='space-y-2 text-md text-slate-200'>
+              <h1 className='text-title text-xl md:text-6xl'>{currentBook?.title}</h1>
+              <h2 className='text-lg md:text-2xl font-semibold text-amber-200'>By {currentBook?.author}</h2>
+              <div className='space-y-1.5 text-sm md:text-base text-slate-200'>
                 <p >Genre : {currentBook?.genre}</p>
                 <p>Status : <span className={setStatusClass()}>{currentBook?.status}</span></p>
                 <p>Ratings : {setRating(currentBook?.rating)}</p>
@@ -152,56 +155,68 @@ const BookDetail = () => {
             </>
           }
 
-
-
-          <div className='flex gap-6 mt-5'>
+          <div className='flex gap-3 md:gap-6'>
             {isEditing
-              ? <button
-                onClick={() => {
-                  handleBookDataUpdate(currentBook?.id, updatedBook);
-                  setIsEditing(prev => !prev);
-                }}
-                className='flex gap-2 items-center  text-green-500'>
-                <Pen className='size-4' />
-                Update Your Book
-              </button>
-              : <button
-                onClick={() => setIsEditing(prev => !prev)}
-                className='flex gap-2 items-center'>
-                <Pen className='size-4' />
-                Edit Your Book
-              </button>
+              ? <>
+                <button
+                  onClick={() => {
+                    handleBookDataUpdate(currentBook?.id, updatedBook);
+                    setIsEditing(prev => !prev);
+                  }}
+                  className='flex gap-2 items-center  text-green-500'>
+                  <Pen className='size-4' />
+                  Update <span className='hidden md:block'> Your Book</span>
+                </button>
+                 <button
+                  onClick={() => setIsEditing(false)}
+                  className={`flex gap-2 items-center text-red-500 hover:bg-red-900 hover:text-red-100 active:bg-red-950 focus:outline-red-500`}>
+                  <PenOff className='size-4' />
+                  Cancel
+                </button>
+              </>
+              :
+              <>
+                <button
+                  onClick={() => setIsEditing(prev => !prev)}
+                  className='flex gap-2 items-center'>
+                  <Pen className='size-4' />
+                  Edit <span className='hidden md:block'> Your Book</span>
+                </button>
+                <button
+                  onClick={() => handleDeleteBook(currentBook?.id)}
+                  className={`flex gap-2 items-center text-red-500 hover:bg-red-900 hover:text-red-100 active:bg-red-950 focus:outline-red-500 ${isEditing ? 'hidden' : ''}`}>
+                  <Trash2 className='size-4' />
+                  Delete <span className='hidden md:block'> Your Book</span>
+                </button>
+              </>
             }
-            <button
-              onClick={() => handleDeleteBook(currentBook?.id)}
-              className={`flex gap-2 items-center text-red-500 hover:bg-red-900 hover:text-red-100 active:bg-red-950 focus:outline-red-500 ${isEditing ? 'hidden' : ''}`}>
-              <Trash2 className='size-4' />
-              Delete Book
-            </button>
           </div>
-
-
         </div>
-
       </div>
-      <div className=' mt-8 flex justify-end'>
-      </div>
-      <div className='flex text-left leading-8'>
-        <div className=' space-y-2 px-15 text-justify w-[50%]'>
+      <div className='flex flex-col md:flex-row text-left gap-5 my-6 md:my-8'>
+        <div className=' space-y-2 px-8 md:px-15  text-justify md:w-[50%] '>
           <div className='flex justify-between'>
             <h2>My Notes</h2>
-            <Edit className='size-5 text-primary' />
+            <Edit className='size-4 md:size-5 text-primary' />
           </div>
-          <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis rerum aut incidunt veritatis nihil modi atque nisi dignissimos sequi sunt!</p>
+          <p className='text-sm md:text-base text-pretty'>
+            {currentBook?.notes > 0 
+             ? currentBook?.notes
+            : <span className='text-slate-700'>Add Your First Note Here 😊 !</span>
+            }</p>
         </div>
-        <div className='space-y-2 px-15 text-justify w-[50%]'>
+        <div className='space-y-2 px-8 md:px-15 text-justify md:w-[50%]'>
           <div className='flex justify-between'>
             <h2>My Favorite Quotes</h2>
-            <Edit className='size-5  text-primary' />
+            <Edit className='size-4 md:size-5  text-primary' />
           </div>
-          <ul className="list-disc list-inside italic">
-            <li>“And, when you want something, all the universe...”</li>
-            <li>“All the universe will Pray For You”</li>
+          <ul className="list-disc list-inside italic  text-sm md:text-base text-pretty">
+            {currentBook?.quotes.length > 0 
+            ? currentBook?.quotes.map(quote => (
+              <li>{quote}</li>
+            ))
+            :<span className='text-slate-700'>Add Your Favorite Quotes Here 😊 !</span>
+            }
           </ul>
         </div>
       </div>
