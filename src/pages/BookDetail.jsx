@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useState } from 'react'
 
 const BookDetail = () => {
-  const { books } = useSelector(state => state.bookSlice);
+  const { books, isUpdating } = useSelector(state => state.bookSlice);
   const [isEditing, setIsEditing] = useState(false)
   const [isNotesEditing, setIsNotesEditing] = useState(false)
   const [isQuotesEditing, setIsQuotesEditing] = useState(false)
@@ -202,7 +202,6 @@ const BookDetail = () => {
         <div className=' space-y-2 px-8 md:px-15  text-justify md:w-[50%] '>
           <div className='flex justify-between'>
             <h2>My Notes</h2>
-
             {isNotesEditing
               ? <CircleX
                 onClick={() => setIsNotesEditing(false)}
@@ -213,35 +212,40 @@ const BookDetail = () => {
 
             }
           </div>
-          {isNotesEditing
-            ? <>
-              <textarea
-                rows={3}
-                className='text-sm md:text-base w-full rounded-2xl p-2'
-                placeholder='Your Notes About the Book'
-                defaultValue={currentBook?.notes}
-                onChange={(e) => setUpdatedBook({ ...currentBook, notes: e.target.value })}
+          {
+            isUpdating ? <p>Updating...</p>
+              : <>
+                {
+                  isNotesEditing
+                    ? <>
+                      < textarea
+                        rows={3}
+                        className='text-sm md:text-base w-full rounded-2xl p-2'
+                        placeholder='Your Notes About the Book'
+                        defaultValue={currentBook?.notes}
+                        onChange={(e) => setUpdatedBook({ ...currentBook, notes: e.target.value })}
 
-              />
-              <button
-                onClick={() => {
-                  handleBookDataUpdate(currentBook?.id, updatedBook);
-                  setIsNotesEditing(false);
-                }}
-                className='text-green-500'
-              >
-                Save Notes
-              </button>
-            </>
-            : <p className='text-sm md:text-base text-pretty'>
-              {currentBook?.notes.length > 0
-                ? currentBook?.notes
-                : <span className='text-slate-700'>Add Your First Note Here 😊 !</span>
-              }</p>
+                      />
+                      <button
+                        onClick={() => {
+                          handleBookDataUpdate(currentBook?.id, updatedBook);
+                          setIsNotesEditing(false);
+                        }}
+                        className='text-green-500'
+                      >
+                        Save Notes
+                      </button>
+                    </>
+                    : <p className='text-sm md:text-base text-pretty'>
+                      {currentBook?.notes.length > 0
+                        ? currentBook?.notes
+                        : <span className='text-slate-700'>Add Your First Note Here 😊 !</span>
+                      }</p>
+                }
+              </>
           }
-
-
         </div>
+        
         <div className='space-y-2 px-8 md:px-15 text-justify md:w-[50%]'>
           <div className='flex justify-between'>
             {isQuotesEditing
@@ -261,48 +265,53 @@ const BookDetail = () => {
               </>
             }
           </div>
-          <ul className="list-disc list-inside italic  text-sm md:text-base text-pretty">
-            {isQuotesEditing
-              ? <>
-                <textarea
-                  rows={3}
-                  className='text-sm md:text-base w-full rounded-2xl p-2'
-                  placeholder='Your Favorite Quotes (comma-separated)'
-                  value={quoteInput}
-                  onChange={(e) => setQuoteInput(e.target.value)}
-                />
-                <button
-                  onClick={() => {
-                    const updatedQuotes = quoteInput
-                      .split(',')
-                      .map(q => q.trim())
-                      .filter(q => q.length > 0);
+          {
+            isUpdating ? <p>Updating...</p>
+              :
+              <ul className="list-disc list-inside italic  text-sm md:text-base text-pretty">
+                {isQuotesEditing
+                  ? <>
+                    <textarea
+                      rows={3}
+                      className='text-sm md:text-base w-full rounded-2xl p-2'
+                      placeholder='Your Favorite Quotes (comma-separated)'
+                      value={quoteInput}
+                      onChange={(e) => setQuoteInput(e.target.value)}
+                    />
+                    <button
+                      onClick={() => {
+                        const updatedQuotes = quoteInput
+                          .split(',')
+                          .map(q => q.trim())
+                          .filter(q => q.length > 0);
 
-                    const updatedData = {
-                      ...currentBook,
-                      quotes: updatedQuotes,
-                    };
-                    handleBookDataUpdate(currentBook?.id, updatedData);
-                    setIsQuotesEditing(false);
-                  }}
-                  className='text-green-500'
-                >
-                  Save Quotes
-                </button>
-              </>
-              : <>
-                {currentBook?.quotes.length > 0
-                  ? currentBook?.quotes.map((quote) => (
-                    <li>{quote}</li>
-                  ))
-                  : <span className='text-slate-700'>Add Your Favorite Quotes Here 😊 !</span>
+                        const updatedData = {
+                          ...currentBook,
+                          quotes: updatedQuotes,
+                        };
+
+                        dispatch(updateBook({ bookId: currentBook.id, updatedBookData: updatedData }));
+                        setIsQuotesEditing(false);
+                      }}
+                      className='text-green-500 hover:underline mt-2'
+                    >
+                      Save Quotes
+                    </button>
+                  </>
+                  : <>
+                    {currentBook?.quotes.length > 0
+                      ? currentBook?.quotes.map((quote, index) => (
+                        <li key={index}>{quote}</li>
+                      ))
+                      : <span className='text-slate-700'>Add Your Favorite Quotes Here 😊 !</span>
+                    }
+                  </>
                 }
-              </>
-            }
+              </ul>
+          }
 
-          </ul>
         </div>
-      </div>
+      </div >
     </div >
   )
 }

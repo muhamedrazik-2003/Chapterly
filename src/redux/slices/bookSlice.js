@@ -25,17 +25,6 @@ export const updateBook = createAsyncThunk(
     return response.data;
   }
 );
-export const updateBookNotesorQuotes = createAsyncThunk(
-  "books/updateBookNotesorQuotes",
-  async ({bookId, updatedBookData}) => {
-    const response = await axios.patch(
-      `${API_Base_url}/${bookId}`,
-      updatedBookData
-    );
-    return response.data;
-  }
-);
-
 export const deleteBook = createAsyncThunk("books/deleteBook", async (bookId)=> {
   const response = await axios.delete(`${API_Base_url}/${bookId}`);
   console.log(response.data);
@@ -48,6 +37,7 @@ const bookSlice = createSlice({
   initialState: {
     books: [],
     loading: false,
+    isUpdating: false,
     error: "",
   },
   reducers: {},
@@ -85,7 +75,7 @@ const bookSlice = createSlice({
 
     // for handling updateBook
     builder.addCase(updateBook.fulfilled, (state, action) => {
-      state.loading = false;
+      state.isUpdating = false;
       state.error = "";
       const updatedData = action.payload;
       const index = state.books.findIndex((book) => book.id === updatedData.id);
@@ -93,31 +83,13 @@ const bookSlice = createSlice({
       if (index !== -1) state.books[index] = updatedData;
     });
     builder.addCase(updateBook.pending, (state) => {
-      state.loading = true;
+      state.isUpdating= true;
       state.error = "";
     });
     builder.addCase(updateBook.rejected, (state) => {
-      state.loading = false;
+      state.isUpdating = false;
       state.error = "Failed to Update the Book";
     });
-    // for handling updateBookNotesorQoutes
-    builder.addCase(updateBookNotesorQuotes.fulfilled, (state, action) => {
-      state.loading = false;
-      state.error = "";
-      const updatedData = action.payload;
-      const index = state.books.findIndex((book) => book.id === updatedData.id);
-      // since findIndex returns -1 if no match found
-      if (index !== -1) state.books[index] = {...state.books[index],updatedData};
-    });
-    builder.addCase(updateBookNotesorQuotes.pending, (state) => {
-      state.loading = true;
-      state.error = "";
-    });
-    builder.addCase(updateBookNotesorQuotes.rejected, (state) => {
-      state.loading = false;
-      state.error = "Failed to Update the Book";
-    });
-
     // for handling deleteBook
     builder.addCase(deleteBook.fulfilled, (state, action) => {
       state.books = state.books.filter(book => book.id !== action.payload.id) ;
