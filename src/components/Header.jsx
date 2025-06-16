@@ -77,7 +77,12 @@ const Header = () => {
                 {/* add Book Modal */}
                 <dialog ref={modalRef} className='bg-transparent w-full h-full'>
                     <div className='bg-background text-white md:w-4xl p-6 rounded-3xl mx-auto mt-[13vh]'>
-                        <form action="dialog" onSubmit={() => handleBookSubmit(newBook)}>
+                        <form
+                            action="dialog"
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                handleBookSubmit(newBook)
+                            }}>
                             <div className='flex flex-col md:flex-row gap-6 items-center justify-center overflow-auto md:h-[62vh]'>
 
                                 <div className='flex flex-col gap-4 items-center text-sm'>

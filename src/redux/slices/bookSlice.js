@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_Base_url = "http://localhost:3000/books";
+const API_Base_url = "https://chapterly-server.onrender.com/books";
 
 export const addNewBook = createAsyncThunk("books/addNewBook", async(newBookData) => {
   const response = await axios.post(API_Base_url, newBookData);

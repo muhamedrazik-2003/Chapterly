@@ -3,6 +3,7 @@ import { updateBook, deleteBook } from '../redux/slices/bookSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState } from 'react'
+// import updateSkelton from '../components/updateSkelton'
 
 const BookDetail = () => {
   const { books, isUpdating } = useSelector(state => state.bookSlice);
@@ -62,7 +63,6 @@ const BookDetail = () => {
 
   return (
     <div className=' xl:w-6xl mx-auto text-center mt-5'>
-      {/* <h1 className='text-xl mb-8'>Add New Book to Your List</h1> */}
       <div className='flex flex-col md:flex-row gap-6 md:gap-0 justify-center items-center md:p-4 border-b border-blue-950 pb-6 md:pb-12 pt-6'>
         <div className='md:w-[50%] flex justify-center  items-center space-y-4'>
           {isEditing
@@ -245,7 +245,7 @@ const BookDetail = () => {
               </>
           }
         </div>
-        
+
         <div className='space-y-2 px-8 md:px-15 text-justify md:w-[50%]'>
           <div className='flex justify-between'>
             {isQuotesEditing
