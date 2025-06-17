@@ -78,7 +78,7 @@ const Header = () => {
                 </div>
                 {/* add Book Modal */}
                 <dialog ref={modalRef} className='bg-transparent w-full h-full'>
-                    <div className='bg-background text-white md:w-4xl p-6 rounded-3xl mx-auto mt-[13vh]'>
+                    <div className='bg-background text-white md:w-4xl p-6 rounded-3xl mx-auto mt-[8vh] md:mt-[13vh]'>
                         <form
                             action="dialog"
                             onSubmit={(e) => {
@@ -106,7 +106,7 @@ const Header = () => {
                                         <textarea
                                             name='notes'
                                             rows={3}
-                                            className='text-title w-85 rounded-2xl'
+                                            className='text-title w-80 md:w-85 rounded-2xl'
                                             onChange={(e) => setNewBook({ ...newBook, notes: e.target.value })}
                                         />
                                     </div>
@@ -118,7 +118,7 @@ const Header = () => {
                                         <input
                                             name='title'
                                             required
-                                            className='text-title w-85 md:w-110  h-8 user-invalid:ring-red-500'
+                                            className='text-title w-80 md:w-110  h-8 user-invalid:ring-red-500'
                                             onChange={(e) => setNewBook({ ...newBook, title: e.target.value })}
                                         />
                                     </div>
@@ -127,7 +127,7 @@ const Header = () => {
                                         <input
                                             name='author'
                                             required
-                                            className='text-title w-85 md:w-110  h-8 user-invalid:ring-red-500'
+                                            className='text-title w-80 md:w-110  h-8 user-invalid:ring-red-500'
                                             onChange={(e) => setNewBook({ ...newBook, author: e.target.value })}
                                         />
                                     </div>
@@ -136,11 +136,11 @@ const Header = () => {
                                         <input
                                             name='genre'
                                             placeholder='Action'
-                                            className='text-title w-85 md:w-110  h-8'
+                                            className='text-title w-80 md:w-110  h-8'
                                             onChange={(e) => setNewBook({ ...newBook, genre: e.target.value })}
                                         />
                                     </div>
-                                    <div className='flex gap-7'>
+                                    <div className='flex flex-col gap-7'>
                                         <div className='flex gap-2 items-center'>
                                             <label htmlFor="status" className='px-1'>Status :</label>
                                             <select
@@ -176,7 +176,7 @@ const Header = () => {
                                         <input
                                             name='link'
                                             placeholder='Enter An External Reading Link'
-                                            className='text-title w-85 md:w-110  h-8'
+                                            className='text-title w-80 md:w-110  h-8'
                                             onChange={(e) => setNewBook({ ...newBook, link: e.target.value })}
                                         />
                                     </div>
