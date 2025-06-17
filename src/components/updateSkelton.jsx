@@ -1,21 +1,13 @@
-import React from 'react'
-import { Loader2 } from 'lucide-react' // Optional: You can replace with any spinner or remove
+import { RefreshCw } from "lucide-react"
 
 const UpdateSkeleton = () => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-amber-50/80 backdrop-blur-sm">
-      <div className="flex flex-col items-center gap-4 p-6 rounded-xl shadow-md bg-white border border-amber-200 animate-fade-in-up">
-        <img
-          src="/assets/chapterly-logo.png"
-          alt="Updating"
-          className="w-20 h-20 animate-pulse"
-        />
-        <div className="flex items-center gap-2">
-          <Loader2 className="w-5 h-5 animate-spin text-amber-600" />
-          <span className="text-amber-800 font-medium text-lg">Updating your book...</span>
+    <div id='bootup' className={`w-full h-[72vh] bg-background flex justify-center items-center`}>
+            <div className='flex items-center gap-3 animate-pulse'>
+                <RefreshCw className='size-6 md:size-10 animate-spin' alt="" />
+                <h1 className='text-xl md:text-2xl'>Updating Your Book</h1>
+            </div>
         </div>
-      </div>
-    </div>
   )
 }
 
