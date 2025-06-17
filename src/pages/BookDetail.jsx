@@ -40,7 +40,6 @@ const BookDetail = () => {
     });
     const newData = { ...updatedBookData, dateAdded: formattedDate }
     dispatch(updateBook({ bookId: BookId, updatedBookData: newData }))
-    updatedBook
   }
   const setRating = (rating) => {
     if (rating === '0') {
@@ -62,6 +61,7 @@ const BookDetail = () => {
     if (confirmed) {
       dispatch(deleteBook(BookId))
       navigate('/')
+      setUpdatedBook({})
     }
   }
 
@@ -82,7 +82,7 @@ const BookDetail = () => {
                     <p>Cover Url</p>
                     <input
                       type='text'
-                      onChange={(e) => setUpdatedBook({ ...currentBook, cover: e.target.value })}
+                      onChange={(e) => setUpdatedBook({ ...updatedBook, cover: e.target.value })}
                       className='bg-slate-9000 md:w-100'
                       placeholder='Enter Your Book Cover URL'
                       defaultValue={currentBook.cover} />
@@ -100,12 +100,12 @@ const BookDetail = () => {
                   <input
                     className='text-title text-2xl md:text-3xl md:w-130 font-semibold '
                     placeholder='Book Title'
-                    onChange={(e) => setUpdatedBook({ ...currentBook, title: e.target.value })}
+                    onChange={(e) => setUpdatedBook({ ...updatedBook, title: e.target.value })}
                     defaultValue={currentBook?.title} />
                   <input
                     className='text-lg md:text-2xl font-semibold md:w-130 text-amber-200'
                     placeholder='Book Author'
-                    onChange={(e) => setUpdatedBook({ ...currentBook, author: e.target.value })}
+                    onChange={(e) => setUpdatedBook({ ...updatedBook, author: e.target.value })}
                     defaultValue={currentBook?.author} />
                   <div className='space-y-2.5  text-sm md:text-base text-slate-200 mb-6'>
                     <div className='flex gap-2 items-center '>
@@ -113,14 +113,14 @@ const BookDetail = () => {
                       <input
                         className=' w-40 md:w-50'
                         placeholder='Action'
-                        onChange={(e) => setUpdatedBook({ ...currentBook, genre: e.target.value })}
+                        onChange={(e) => setUpdatedBook({ ...updatedBook, genre: e.target.value })}
                         defaultValue={currentBook?.genre} />
                     </div>
                     <div className='flex gap-2 items-center'>
                       <p>Status : </p>
                       <select
                         className='bg-slate-900 w-40 md:w-50'
-                        onChange={(e) => setUpdatedBook({ ...currentBook, status: e.target.value })}
+                        onChange={(e) => setUpdatedBook({ ...updatedBook, status: e.target.value })}
                         defaultValue={currentBook?.status}>
                         <option value="Completed">Completed</option>
                         <option value="Reading">Reading</option>
@@ -131,7 +131,7 @@ const BookDetail = () => {
                       <p>Rating : </p>
                       <select
                         className='w-40 md:w-50'
-                        onChange={(e) => setUpdatedBook({ ...currentBook, rating: e.target.value })}
+                        onChange={(e) => setUpdatedBook({ ...updatedBook, rating: e.target.value })}
 
                         defaultValue={currentBook?.rating}>
                         <option value="5">⭐ ⭐ ⭐ ⭐ ⭐</option>
@@ -146,7 +146,7 @@ const BookDetail = () => {
                       <p>External Link :</p>
                       <input
                         className='text-slate-200 md:w-62'
-                        onChange={(e) => setUpdatedBook({ ...currentBook, link: e.target.value })}
+                        onChange={(e) => setUpdatedBook({ ...updatedBook, link: e.target.value })}
 
                         defaultValue={'Not Available'} />
                     </div>
@@ -230,7 +230,7 @@ const BookDetail = () => {
                             className='text-sm md:text-base w-full rounded-2xl p-2'
                             placeholder='Your Notes About the Book'
                             defaultValue={currentBook?.notes}
-                            onChange={(e) => setUpdatedBook({ ...currentBook, notes: e.target.value })}
+                            onChange={(e) => setUpdatedBook({ ...updatedBook, notes: e.target.value })}
 
                           />
                           <button
@@ -293,7 +293,7 @@ const BookDetail = () => {
                               .filter(q => q.length > 0);
 
                             const updatedData = {
-                              ...currentBook,
+                              ...updatedBook,
                               quotes: updatedQuotes,
                             };
 

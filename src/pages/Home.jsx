@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import BookCard from '../components/BookCard'
-import { fetchBooks,search } from '../redux/slices/bookSlice'
+import { fetchBooks, search } from '../redux/slices/bookSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
@@ -26,20 +26,20 @@ const Home = () => {
                     className='p-2 md:p-5 h-9 w-[310px] sm:w-lg md:w-xl'
                     onChange={(e) => dispatch(search(e.target.value))} />
             </section>
-        
-            <section className=' xl:w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-6 md:gap-y-10 justify-center mb-5 md:mb-10'>
-                {
-                    loading
-                        ? Array.from({ length: 10 }).map((_, index) => (
-                            <BookCard isLoading={loading} />
-                        ))
-                        :error ? error
-                        : <>{books?.map(item => (
-                            <Link to={`/book/${item.id}`}>
-                                <BookCard bookData={item} />
-                            </Link>
 
-                        ))}
+            <section className=' xl:w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-6 md:gap-y-10 justify-center mb-5 md:mb-10'>
+                {loading
+                    ? Array.from({ length: 10 }).map((_, index) => (
+                        <BookCard isLoading={loading} />
+                    ))
+                    : error
+                        ? error
+                        : <>
+                            {books?.map(item => (
+                                <Link to={`/book/${item.id}`}>
+                                    <BookCard bookData={item} />
+                                </Link>
+                            ))}
                         </>
                 }
             </section>

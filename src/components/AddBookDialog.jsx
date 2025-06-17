@@ -1,10 +1,11 @@
-import { useRef, useState } from 'react'
-import { CirclePlus, Plus } from 'lucide-react'
+import { useRef, useState,useEffect } from 'react'
+import { CirclePlus, LoaderCircle, Plus } from 'lucide-react'
 import { addNewBook } from '../redux/slices/bookSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 const AddBookDialog = () => {
+    const [wasAdding, setWasAdding] = useState(false);
     const [newBook, setNewBook] = useState({
         title: '',
         author: '',
@@ -17,10 +18,19 @@ const AddBookDialog = () => {
         quotes: [],
         link: ''
     })
-    const { books } = useSelector(state => state.bookSlice)
+    const { books, isAdding } = useSelector(state => state.bookSlice)
     const modalRef = useRef(null)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    useEffect(() => {
+    if (wasAdding && !isAdding) {
+        modalRef.current?.close();
+        navigate('/');
+        setWasAdding(false);
+    }
+}, [isAdding, wasAdding]);
+
 
     const handleBookSubmit = (newBookData) => {
         const today = new Date();
@@ -35,7 +45,7 @@ const AddBookDialog = () => {
         };
         const existing = books.find(book => book.title === newData.title);
         if (existing) {
-            alert("Exist")
+            alert("Book Already Exist")
         } else {
             setNewBook({
                 title: '',
@@ -49,9 +59,8 @@ const AddBookDialog = () => {
                 quotes: [],
                 link: ''
             })
+            setWasAdding(true);
             dispatch(addNewBook(newData))
-            navigate('/')
-            modalRef.current?.close()
         }
     }
 
@@ -185,7 +194,10 @@ const AddBookDialog = () => {
                         <button
                             type='submit'
                             className='flex gap-2 items-center'>
-                            Save Changes
+                            {isAdding
+                                ? <span className='flex items-center gap-2'><LoaderCircle className='animate-spin'/> Please Wait</span>
+                                : 'Save Changes'
+                            }
                         </button>
                     </div>
                 </form>

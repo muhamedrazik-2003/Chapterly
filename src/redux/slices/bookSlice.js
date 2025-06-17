@@ -3,21 +3,22 @@ import axios from "axios";
 
 const API_Base_url = "https://chapterly-server.onrender.com/books";
 
-export const addNewBook = createAsyncThunk("books/addNewBook", async(newBookData) => {
-  const response = await axios.post(API_Base_url, newBookData);
-  console.log(response.data)
-  return response.data
-})
+export const addNewBook = createAsyncThunk(
+  "books/addNewBook",
+  async (newBookData) => {
+    const response = await axios.post(API_Base_url, newBookData);
+    return response.data;
+  }
+);
 
 export const fetchBooks = createAsyncThunk("books/fetchBooks", async () => {
   const response = await axios.get(API_Base_url);
-  console.log(response.data);
   return response.data;
 });
 
 export const updateBook = createAsyncThunk(
   "books/updateBook",
-  async ({bookId, updatedBookData}) => {
+  async ({ bookId, updatedBookData }) => {
     const response = await axios.put(
       `${API_Base_url}/${bookId}`,
       updatedBookData
@@ -25,12 +26,14 @@ export const updateBook = createAsyncThunk(
     return response.data;
   }
 );
-export const deleteBook = createAsyncThunk("books/deleteBook", async (bookId)=> {
-  const response = await axios.delete(`${API_Base_url}/${bookId}`);
-  console.log(response.data);
-  return {bookId : bookId};
-})
-
+export const deleteBook = createAsyncThunk(
+  "books/deleteBook",
+  async (bookId) => {
+    const response = await axios.delete(`${API_Base_url}/${bookId}`);
+    console.log(response.data);
+    return { bookId: bookId };
+  }
+);
 
 const bookSlice = createSlice({
   name: "books",
@@ -39,6 +42,7 @@ const bookSlice = createSlice({
     searchData: [],
     loading: false,
     isUpdating: false,
+    isAdding: false,
     error: "",
   },
   reducers: {
@@ -46,11 +50,15 @@ const bookSlice = createSlice({
       const keyword = action.payload.toLowerCase();
 
       if (keyword.length > 0) {
-        state.books = state.searchData.filter((item) => `${item.title} ${item.author} ${item.genre}`.toLowerCase().includes(keyword));
+        state.books = state.searchData.filter((item) =>
+          `${item.title} ${item.author} ${item.genre}`
+            .toLowerCase()
+            .includes(keyword)
+        );
       } else {
-        state.books = state.searchData
+        state.books = state.searchData;
       }
-    }
+    },
   },
   extraReducers: (builder) => {
     // for handling fetchBooks
@@ -68,21 +76,22 @@ const bookSlice = createSlice({
     builder.addCase(fetchBooks.rejected, (state, action) => {
       state.books = [];
       state.loading = false;
-      state.error = "Failed to Fetch the Products";
+      state.error = "Failed to Fetch the Books";
     });
+
     //for handling addNewBook
     builder.addCase(addNewBook.fulfilled, (state, action) => {
       state.books.push(action.payload);
       state.searchData.push(action.payload);
-      state.loading = false;
+      state.isAdding = false;
       state.error = "";
     });
     builder.addCase(addNewBook.pending, (state, action) => {
-      state.loading = true;
+      state.isAdding = true;
       state.error = "";
     });
     builder.addCase(addNewBook.rejected, (state, action) => {
-      state.loading = false;
+      state.isAdding = false;
       state.error = "Failed to Add the Book";
     });
 
@@ -97,17 +106,22 @@ const bookSlice = createSlice({
       if (index !== -1) state.searchData[index] = updatedData;
     });
     builder.addCase(updateBook.pending, (state) => {
-      state.isUpdating= true;
+      state.isUpdating = true;
       state.error = "";
     });
     builder.addCase(updateBook.rejected, (state) => {
       state.isUpdating = false;
       state.error = "Failed to Update the Book";
     });
+
     // for handling deleteBook
     builder.addCase(deleteBook.fulfilled, (state, action) => {
-      state.books = state.books.filter(book => book.id !== action.payload.bookId) ;
-      state.searchData = state.searchData.filter(book => book.id !== action.payload.bookId) ;
+      state.books = state.books.filter(
+        (book) => book.id !== action.payload.bookId
+      );
+      state.searchData = state.searchData.filter(
+        (book) => book.id !== action.payload.bookId
+      );
       state.loading = false;
       state.error = "";
     });
@@ -122,5 +136,5 @@ const bookSlice = createSlice({
   },
 });
 
-export const  {search} = bookSlice.actions;
+export const { search } = bookSlice.actions;
 export default bookSlice.reducer;
