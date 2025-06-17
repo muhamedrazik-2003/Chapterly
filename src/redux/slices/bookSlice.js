@@ -88,7 +88,7 @@ const bookSlice = createSlice({
 
     // for handling updateBook
     builder.addCase(updateBook.fulfilled, (state, action) => {
-      state.isUpdating = true;
+      state.isUpdating = false;
       state.error = "";
       const updatedData = action.payload;
       const index = state.books.findIndex((book) => book.id === updatedData.id);
