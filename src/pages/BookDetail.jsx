@@ -162,7 +162,7 @@ const BookDetail = () => {
                     <p>Status : <span className={setStatusClass()}>{currentBook?.status}</span></p>
                     <p>Ratings : {setRating(currentBook?.rating)}</p>
                     <p className='text-slate-200'>External link : Not Provided</p>
-                    <p className='text-slate-700'>Date Added : June 12, 2029</p>
+                    <p className='text-slate-700'>Last Updated : {currentBook?.dateAdded}</p>
                   </div>
                 </>
               }
