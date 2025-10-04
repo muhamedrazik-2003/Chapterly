@@ -31,6 +31,7 @@ It allows users to track their reading progress, search the added books, manage 
 This project was developed to **practice UI design principles** and strengthen understanding of **Redux** for state management.  
 It helped in learning how to structure clean, interactive UIs while maintaining predictable app state using Redux.
 
+[Live](https://chapterly-rho.vercel.app)
 ---
 
 ## 👨‍💻 Author
